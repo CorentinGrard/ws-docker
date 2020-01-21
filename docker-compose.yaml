@@ -5,7 +5,7 @@ services:
     image: 159.31.200.29:5000/amc/ws-frontend:v1
     container_name: frontend
     restart: always
-    build: ./ws-frontend
+    build: ../ws-frontend
     environment:
     - BACKEND_HOST=localhost
     - BACKEND_PORT=5000
@@ -14,7 +14,7 @@ services:
 
   ws-rest:
     container_name: ws-rest
-    build: ./ws-rest
+    build: ../ws-rest
     image: 159.31.200.29:5000/amc/ws-rest:v1
     environment:
     - KEYCLOAK_HOST=localhost
