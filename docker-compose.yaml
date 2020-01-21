@@ -2,7 +2,7 @@ version: '3.7'
 services: 
 
   ws-frontend:
-    image: 159.31.200.29:5000/AMC/ws-frontend:v1
+    image: 159.31.200.29:5000/amc/ws-frontend:v1
     container_name: frontend
     restart: always
     build: ./ws-frontend
