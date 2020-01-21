@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ws-service
+  labels:
+    app: ws
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: ws
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: ws
+spec:
+  selector:
+    matchLabels:
+      app: ws
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ws
+    spec:
+      containers:
+      - image: ws-rest:latest
+        name: ws-restAPI
+        ports:
+        - containerPort: 5000
+      - image: ws-frontend:latest
+        name: ws-frontend
+        ports:
+        - containerPort: 3000
+      - image: jboss/keycloak
+        name: ws-keycloak
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-config
+  namespace: default
+  resourceVersion: "516"
+data:
+  game.properties: |
+    enemies=aliens
+    lives=3
+    enemies.cheat=true
+    enemies.cheat.level=noGoodRotten
+    secret.code.passphrase=UUDDLRLRBABAS
+    secret.code.allowed=true
+    secret.code.lives=30
+  ui.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true
+    how.nice.to.look=fairlyNice
