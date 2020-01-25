@@ -6,24 +6,30 @@ services:
     container_name: frontend
     restart: always
     build: ../ws-frontend
+    ports: 
+      - 3000:3000
     environment:
-    - BACKEND_HOST=localhost
-    - BACKEND_PORT=5000
-    - KEYCLOAK_HOST=localhost
-    - KEYCLOAK_PORT=8080
+      - BACKEND_HOST=localhost
+      - BACKEND_PORT=5000
+      - KEYCLOAK_HOST=localhost
+      - KEYCLOAK_PORT=8080
 
   ws-rest:
     container_name: ws-rest
     build: ../ws-rest
     image: 159.31.200.29:5000/amc/ws-rest:v1
+    ports: 
+      - 5000:5000
     environment:
-    - KEYCLOAK_HOST=localhost
-    - KEYCLOAK_PORT=8080
+      - KEYCLOAK_HOST=localhost
+      - KEYCLOAK_PORT=8080
     restart: always
 
   ws-keycloak:
     container_name: ws-keycloak
     image: jboss/keycloak
+    ports: 
+      - 8080:8080
     volumes: 
       - ./realm-export.json:/tmp/realm-export.json
     environment: 
