@@ -26,7 +26,7 @@ services:
 
   ws-soap:
     container_name: ws-soap
-    build: ../ws-soap
+    build: ../ws-soap/eclipse-workspace/appSOAP
     image: 159.31.200.29:5000/amc/ws-soap:v1
     ports:
       - 2000:2000
