@@ -1,38 +1,45 @@
-version: '3.7'
-services: 
-
+version: "3.7"
+services:
   ws-frontend:
     image: 159.31.200.29:5000/amc/ws-frontend:v1
     container_name: frontend
     restart: always
     build: ../ws-frontend
-    ports: 
+    ports:
       - 3000:3000
     environment:
-      - BACKEND_HOST=localhost
+      - BACKEND_HOST=ws-rest
       - BACKEND_PORT=5000
-      - KEYCLOAK_HOST=localhost
+      - KEYCLOAK_HOST=ws-keycloak
       - KEYCLOAK_PORT=8080
 
   ws-rest:
     container_name: ws-rest
     build: ../ws-rest
     image: 159.31.200.29:5000/amc/ws-rest:v1
-    ports: 
+    ports:
       - 5000:5000
     environment:
-      - KEYCLOAK_HOST=localhost
+      - KEYCLOAK_HOST=ws-keycloak
       - KEYCLOAK_PORT=8080
+    restart: always
+
+  ws-soap:
+    container_name: ws-soap
+    build: ../ws-soap
+    image: 159.31.200.29:5000/amc/ws-soap:v1
+    ports:
+      - 2000:2000
     restart: always
 
   ws-keycloak:
     container_name: ws-keycloak
     image: jboss/keycloak
-    ports: 
+    ports:
       - 8080:8080
-    volumes: 
+    volumes:
       - ./realm-export.json:/tmp/realm-export.json
-    environment: 
+    environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_IMPORT=/tmp/realm-export.json
